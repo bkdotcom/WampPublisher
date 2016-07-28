@@ -1,0 +1,21 @@
+{
+	"name": "bdk/wamp-publisher",
+	"description": "WAMP (Web Application Messaging Protocol) client to publish messages to router",
+	"keywords": ["wamp", "wampws"],
+	"homepage": "http://github.com/bkdotcom/WampPublisher",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Brad Kent",
+			"email": "bkfake-packagist@yahoo.com",
+			"homepage": "http://www.bradkent.com/",
+			"role": "Developer"
+		}
+	],
+    "require": {
+        "textalk/websocket": "^1.2"
+    },
+    "autoload": {
+    	"classmap": ["WampPublisher.php"]
+    }
+}
