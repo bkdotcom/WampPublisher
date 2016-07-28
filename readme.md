@@ -1,14 +1,14 @@
 Wamp&#xfeff;Publisher
 ===============
 
-Push messages to a [WAMP IWeb Application Messaging Protocol)](http://wamp-proto.org/) router
+Push messages to a [WAMP (Web Application Messaging Protocol)](http://wamp-proto.org/) router
 
-Wamp Publisher only implements the publish portion of the WAMP protocol..   It does NOT implement Remote Procedure Calls or Subscribe.
+Wamp Publisher only implements the publish portion of the WAMP protocol.  It does NOT implement Remote Procedure Calls or Subscribe.
 
 Use it in your script/application to implement logging, notifications, or perform live website updates.
 (see some WAMP examples on [crossbar.io](https://demo.crossbar.io/))
 
-> WampPublisher is built on the websocket client [textalk/websocket](https://www.github.com/textalk/websocket)
+> WampPublisher is built on the websocket client [textalk/websocket-php](https://github.com/textalk/websocket-php)
 
 ###Installation
 
