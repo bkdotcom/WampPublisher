@@ -7,15 +7,15 @@
 	"authors": [
 		{
 			"name": "Brad Kent",
-			"email": "bkfake-packagist@yahoo.com",
+			"email": "bkfake-github@yahoo.com",
 			"homepage": "http://www.bradkent.com/",
 			"role": "Developer"
 		}
 	],
-    "require": {
-        "textalk/websocket": "^1.2"
-    },
     "autoload": {
     	"classmap": ["WampPublisher.php"]
+    },
+    "require": {
+        "textalk/websocket": "^1.2"
     }
 }

@@ -10,7 +10,7 @@ Use it in your script/application to implement logging, notifications, or perfor
 
 > WampPublisher is built on the websocket client [textalk/websocket-php](https://github.com/textalk/websocket-php)
 
-###Installation
+### Installation
 
 Download Composer (if not already installed) [more info](https://getcomposer.org/doc/00-intro.md#downloading-the-composer-executable)
 

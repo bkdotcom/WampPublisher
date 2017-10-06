@@ -2,7 +2,7 @@
 
 namespace bdk;
 
-use \WebSocket\Client;
+use WebSocket\Client;
 
 /**
  * Publish messages to a WAMP router
@@ -10,59 +10,73 @@ use \WebSocket\Client;
 class WampPublisher
 {
 
-	protected $cfg;
-	protected $client;
+    public $connected = false;
 
-	/**
-	 * Constructor
-	 *
-	 * @param array $cfg config
-	 */
-	public function __construct($cfg = array())
-	{
-		$this->cfg = array_merge(array(
-			'url' => 'ws://127.0.0.1:9090/',
-			'realm' => 'myRealm',
-		), $cfg);
-		$this->initClient();
-	}
+    protected $cfg;
+    protected $client;
 
-	/**
-	 * Initialize WAMP client
-	 *
-	 * @return void
-	 */
-	public function initClient()
-	{
-		$this->client = new Client($this->cfg['url']);
-		/*
-			Perform WAMP handshake
-		*/
-		$msg = array(1, $this->cfg['realm'], array());	// HELLO
-		$this->client->send(json_encode($msg));
-		$this->client->receive();
-	}
+    /**
+     * Constructor
+     *
+     * @param array $cfg config
+     */
+    public function __construct($cfg = array())
+    {
+        $this->cfg = array_merge(array(
+            'url' => 'ws://127.0.0.1:9090/',
+            'realm' => 'myRealm',
+        ), $cfg);
+        $this->initClient();
+    }
 
-	/**
-	 * Publish to topic
-	 *
-	 * @param string $topic   topic
-	 * @param array  $args    arguments
-	 * @param array  $options options
-	 *
-	 * @return void
-	 */
-	public function publish($topic, $args = array(), $options = array())
-	{
-		$msg = array(
-			16,		// PUBLISH
-			$this->getUniqueId(),
-			$options,
-			$topic,
-			$args
-		);
-		$this->client->send(json_encode($msg));
-	}
+    /**
+     * Initialize WAMP client
+     *
+     * @return void
+     */
+    public function initClient()
+    {
+        try {
+            $this->client = new Client($this->cfg['url']);
+            /*
+                Perform WAMP handshake
+            */
+            $msg = array(1, $this->cfg['realm'], array());  // HELLO
+            $this->client->send(json_encode($msg));
+            $this->client->receive();
+            $this->connected = true;
+        } catch (\Exception $e) {
+            $this->client = null;
+        }
+    }
+
+    /**
+     * Publish to topic
+     *
+     * @param string $topic   topic
+     * @param array  $args    arguments
+     * @param array  $options options
+     *
+     * @return void
+     */
+    public function publish($topic, $args = array(), $options = array())
+    {
+        if (!$this->client) {
+            return;
+        }
+        $msg = array(
+            16,     // PUBLISH
+            $this->getUniqueId(),
+            $options,
+            $topic,
+            $args
+        );
+        $json = json_encode($msg);
+        if (!$json) {
+            trigger_error(json_last_error().': '.json_last_error_msg());
+        }
+        $this->client->send($json);
+    }
 
     /**
      * Generate a unique id
