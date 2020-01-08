@@ -22,7 +22,7 @@ class WampPublisher
      */
     public function __construct($cfg = array())
     {
-        $this->cfg = array_merge(array(
+        $this->cfg = \array_merge(array(
             'url' => 'ws://127.0.0.1:9090/',
             'realm' => 'myRealm',
         ), $cfg);
@@ -42,7 +42,7 @@ class WampPublisher
                 Perform WAMP handshake
             */
             $msg = array(1, $this->cfg['realm'], array());  // HELLO
-            $this->client->send(json_encode($msg));
+            $this->client->send(\json_encode($msg));
             $this->client->receive();
             $this->connected = true;
         } catch (\Exception $e) {
@@ -71,9 +71,9 @@ class WampPublisher
             $topic,
             $args
         );
-        $json = json_encode($msg);
+        $json = \json_encode($msg);
         if (!$json) {
-            trigger_error(json_last_error().': '.json_last_error_msg());
+            \trigger_error(\json_last_error() . ': ' . \json_last_error_msg());
         }
         $this->client->send($json);
     }
@@ -86,8 +86,8 @@ class WampPublisher
     private function getUniqueId()
     {
         $filter      = 0x1fffffffffffff; // 53 bits
-        $randomBytes = openssl_random_pseudo_bytes(8);
-        list($high, $low) = array_values(unpack("N2", $randomBytes));
-        return abs(($high << 32 | $low) & $filter);
+        $randomBytes = \openssl_random_pseudo_bytes(8);
+        list($high, $low) = \array_values(\unpack("N2", $randomBytes));
+        return \abs(($high << 32 | $low) & $filter);
     }
 }
