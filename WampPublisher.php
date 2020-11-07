@@ -37,7 +37,12 @@ class WampPublisher
     public function initClient()
     {
         try {
-            $this->client = new Client($this->cfg['url']);
+            $this->client = new Client($this->cfg['url'], array(
+                'headers' => [
+                    'Sec-WebSocket-Protocol' => 'wamp.2.json',
+                    'origin' => 'localhost',
+                ],
+            ));
             /*
                 Perform WAMP handshake
             */
