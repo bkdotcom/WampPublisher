@@ -18,13 +18,20 @@ class WampPublisher
     /**
      * Constructor
      *
-     * @param array $cfg config
+     * @param array $cfg           config
+     * @param array $clientOptions Textalk options
      */
-    public function __construct($cfg = array())
+    public function __construct($cfg = array(), $clientOptions = array())
     {
         $this->cfg = \array_merge(array(
             'url' => 'ws://127.0.0.1:9090/',
             'realm' => 'myRealm',
+            'clientOptions' => \array_merge(array(
+                'headers' => array(
+                    'Sec-WebSocket-Protocol' => 'wamp.2.json',
+                    'origin' => 'localhost',
+                ),
+            ), $clientOptions),
         ), $cfg);
         $this->initClient();
     }
@@ -37,12 +44,7 @@ class WampPublisher
     public function initClient()
     {
         try {
-            $this->client = new Client($this->cfg['url'], array(
-                'headers' => [
-                    'Sec-WebSocket-Protocol' => 'wamp.2.json',
-                    'origin' => 'localhost',
-                ],
-            ));
+            $this->client = new Client($this->cfg['url'], $this->cfg['clientOptions']);
             /*
                 Perform WAMP handshake
             */
