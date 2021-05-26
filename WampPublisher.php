@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * This file is part of bdk/wamp-publisher
+ *
+ * @package   bdk\PubSub
+ * @author    Brad Kent <bkfake-github@yahoo.com>
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @copyright 2014-2021 Brad Kent
+ * @version   v1.1
+ * @link      http://www.github.com/bkdotcom/WampPublisher
+ */
+
 namespace bdk;
 
 use WebSocket\Client;
@@ -94,7 +105,7 @@ class WampPublisher
     {
         $filter      = 0x1fffffffffffff; // 53 bits
         $randomBytes = \openssl_random_pseudo_bytes(8);
-        list($high, $low) = \array_values(\unpack("N2", $randomBytes));
+        list($high, $low) = \array_values(\unpack('N2', $randomBytes));
         return \abs(($high << 32 | $low) & $filter);
     }
 }
