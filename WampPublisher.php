@@ -21,6 +21,9 @@ use WebSocket\Client;
 class WampPublisher
 {
 
+    const CODE_HELLO = 1;
+    const CODE_PUBLISH = 16;
+
     public $connected = false;
 
     protected $cfg;
@@ -59,7 +62,7 @@ class WampPublisher
             /*
                 Perform WAMP handshake
             */
-            $msg = array(1, $this->cfg['realm'], array());  // HELLO
+            $msg = array(self::CODE_HELLO, $this->cfg['realm'], array());
             $this->client->send(\json_encode($msg));
             $this->client->receive();
             $this->connected = true;
@@ -83,7 +86,7 @@ class WampPublisher
             return;
         }
         $msg = array(
-            16,     // PUBLISH
+            self::CODE_PUBLISH,
             $this->getUniqueId(),
             $options,
             $topic,
