@@ -6,7 +6,7 @@
  * @package   bdk\PubSub
  * @author    Brad Kent <bkfake-github@yahoo.com>
  * @license   http://opensource.org/licenses/MIT MIT
- * @copyright 2014-2021 Brad Kent
+ * @copyright 2014-2022 Brad Kent
  * @version   v1.1
  * @link      http://www.github.com/bkdotcom/WampPublisher
  */
@@ -20,7 +20,6 @@ use WebSocket\Client;
  */
 class WampPublisher
 {
-
     const CODE_HELLO = 1;
     const CODE_PUBLISH = 16;
 
@@ -93,9 +92,12 @@ class WampPublisher
             $args
         );
         $json = \json_encode($msg);
-        if (!$json) {
+        if ($json === false) {
             \trigger_error(\json_last_error() . ': ' . \json_last_error_msg());
         }
+        // remove \u0000 from the beginning of any obj keys
+        // avoid JSON_ERROR_INVALID_PROPERTY_NAME when decoding
+        $json = \preg_replace('/"\\\\u0000([^"]*)":/', '"$1":', $json);
         $this->client->send($json);
     }
 
