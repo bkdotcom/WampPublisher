@@ -37,14 +37,14 @@ class WampPublisher
     public function __construct($cfg = array(), $clientOptions = array())
     {
         $this->cfg = \array_merge(array(
-            'url' => 'ws://127.0.0.1:9090/',
-            'realm' => 'myRealm',
             'clientOptions' => \array_merge(array(
                 'headers' => array(
-                    'Sec-WebSocket-Protocol' => 'wamp.2.json',
                     'origin' => 'localhost',
+                    'Sec-WebSocket-Protocol' => 'wamp.2.json',
                 ),
             ), $clientOptions),
+            'realm' => 'myRealm',
+            'url' => 'ws://127.0.0.1:9090/',
         ), $cfg);
         $this->initClient();
     }
@@ -89,9 +89,9 @@ class WampPublisher
             $this->getUniqueId(),
             $options,
             $topic,
-            $args
+            $args,
         );
-        $json = \json_encode($msg);
+        $json = \json_encode($msg); // JSON_INVALID_UTF8_SUBSTITUTE
         if ($json === false) {
             \trigger_error(\json_last_error() . ': ' . \json_last_error_msg());
         }
